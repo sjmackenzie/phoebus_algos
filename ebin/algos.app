@@ -1,0 +1,11 @@
+{application,algos,
+             [{description,[]},
+              {vsn,"0.0.1"},
+              {modules,[shortest_path,
+			find_path
+			]},
+              {registered,[]},
+              {applications,[kernel
+			,stdlib]},
+              {mod,{algos_app,[]}},
+              {env,[]}]}.
