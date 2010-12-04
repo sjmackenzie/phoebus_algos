@@ -19,7 +19,7 @@
 %% under the License.
 %%
 %% -------------------------------------------------------------------
--module(algos).
+-module(shortest_path).
 -author('Arun Suresh <arun.suresh@gmail.com>').
 
 %% API
