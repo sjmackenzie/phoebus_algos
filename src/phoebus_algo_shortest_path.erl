@@ -13,13 +13,13 @@
 %%
 %% Unless required by applicable law or agreed to in writing,
 %% software distributed under the License is distributed on an
-%% "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
-%% KIND, either express or implied.  See the License for the 
+%% "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+%% KIND, either express or implied.  See the License for the
 %% specific language governing permissions and limitations
 %% under the License.
 %%
 %% -------------------------------------------------------------------
--module(shortest_path).
+-module(phoebus_algo_shortest_path).
 -author('Arun Suresh <arun.suresh@gmail.com>').
 
 %% API
@@ -27,17 +27,17 @@
 
 %%%===================================================================
 %%% API
-%%%===================================================================  
+%%%===================================================================
 %%--------------------------------------------------------------------
 %% @doc
 %% @spec
 %% @end
 %%--------------------------------------------------------------------
 shortest_path({VName, VValStr, EList}, LargestTillNow, InMsgs) ->
-  io:format("~n[~p]Recvd msgs : ~p : Aggregate : ~p ~n", 
+  io:format("~n[~p]Recvd msgs : ~p : Aggregate : ~p ~n",
             [VName, InMsgs, LargestTillNow]),
   LTN = list_to_integer(LargestTillNow),
-  NewLTN = 
+  NewLTN =
     lists:foldl(
       fun({_, TV}, OldLTN) ->
           TestLTN = list_to_integer(TV),
@@ -46,7 +46,7 @@ shortest_path({VName, VValStr, EList}, LargestTillNow, InMsgs) ->
             _ -> OldLTN
           end
       end, LTN, [{0, VName}|EList]),
-  {VInfo, O, NAgg, S} = 
+  {VInfo, O, NAgg, S} =
     case VName of
       "1" ->
         OutMsgs = [{TV, VName} || {_, TV} <- EList],
@@ -60,7 +60,7 @@ shortest_path({VName, VValStr, EList}, LargestTillNow, InMsgs) ->
               lists:foldl(
                 fun(Msg, CurrSh) ->
                     Split = re:split(Msg, ":", [{return, list}]),
-                    case (["inf"] =:= CurrSh) or 
+                    case (["inf"] =:= CurrSh) or
                       (length(Split) < length(CurrSh)) of
                       true -> Split;
                       _ -> CurrSh
@@ -72,18 +72,18 @@ shortest_path({VName, VValStr, EList}, LargestTillNow, InMsgs) ->
               [{TV, VName ++ ":" ++ NewVVal} || {_, TV} <- EList],
             {{VName, NewVVal, EList}, OutMsgs, integer_to_list(NewLTN), hold}
         end
-    end,                            
+    end,
   io:format("[~p]Sending msgs : ~p ~n", [VName, O]),
   {VInfo, O, NAgg, S}.
 
 
 create_binary_tree(Dir, NumFiles, NumRecs) ->
-  TargetDir = 
+  TargetDir =
     case lists:last(Dir) of
       $/ -> ok = worker_store:mkdir_p(Dir), Dir;
       _ -> ok = worker_store:mkdir_p(Dir ++ "/"), Dir ++ "/"
-    end,    
-  FDs = 
+    end,
+  FDs =
     lists:foldl(
       fun(X, AFDs) ->
           {ok, FD} =
@@ -94,14 +94,14 @@ create_binary_tree(Dir, NumFiles, NumRecs) ->
   Fn = fun(N) -> integer_to_list(N) end,
   lists:foldl(
     fun(N, [F|Rest]) ->
-        Line = 
+        Line =
           lists:concat(
-            [Fn(N),"\t",Fn(N),"\t", 
+            [Fn(N),"\t",Fn(N),"\t",
              "1\t",Fn(N*2),"\t1\t",Fn((N*2)+1),"\t\r\n"]),
         file:write(F, Line),
         Rest ++ [F]
     end, FDs, lists:seq(1, NumRecs)),
-  lists:foreach(fun(FD) -> file:close(FD) end, FDs).          
+  lists:foreach(fun(FD) -> file:close(FD) end, FDs).
 
 
 %%%===================================================================

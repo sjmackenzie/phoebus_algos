@@ -1,8 +1,8 @@
 {application,phoebus_algos,
              [{description,[]},
               {vsn,"0.0.1"},
-              {modules,[shortest_path,
-			path_find
+              {modules,[phoebus_algo_shortest_path,
+			phoebus_algo_path_find
 			]},
               {registered,[]},
               {applications,[kernel
