@@ -1,13 +1,10 @@
 {application,phoebus_algos,
              [{description,[]},
               {vsn,"0.0.1"},
-              {modules,[phoebus_algos_app,
-			phoebus_algos_sup,
-			phoebus_algos_shortest_path,
-			phoebus_algos_path_find
-			]},
               {registered,[]},
-              {applications,[kernel
-			,stdlib]},
+              {modules,[phoebus_algos_app,phoebus_algos_path_find,
+                        phoebus_algos_server,phoebus_algos_shortest_path,
+                        phoebus_algos_sup]},
+              {applications,[kernel,stdlib]},
               {mod,{phoebus_algos_app,[]}},
               {env,[]}]}.

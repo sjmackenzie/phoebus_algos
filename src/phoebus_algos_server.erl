@@ -33,7 +33,7 @@ handle_call(aggregate_fun, _From, State) ->
 handle_call(shortest_path, _From, State) ->
     {reply, ok, State};
 handle_call({create_binary_tree,Where,NumFiles,NumRecs}, _From, State) ->
-    phoebus_algos_server:create_binary_tree(Where, NumFiles, NumRecs),
+    phoebus_algos_shortest_path:create_binary_tree(Where, NumFiles, NumRecs),
     {reply, ok, State}.
 
 handle_cast(_Msg, State) ->

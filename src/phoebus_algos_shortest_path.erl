@@ -80,8 +80,8 @@ shortest_path({VName, VValStr, EList}, LargestTillNow, InMsgs) ->
 create_binary_tree(Dir, NumFiles, NumRecs) ->
   TargetDir =
     case lists:last(Dir) of
-      $/ -> ok = worker_store:mkdir_p(Dir), Dir;
-      _ -> ok = worker_store:mkdir_p(Dir ++ "/"), Dir ++ "/"
+      $/ -> ok = phoebus_core_worker_store:mkdir_p(Dir), Dir;
+      _ -> ok = phoebus_core_worker_store:mkdir_p(Dir ++ "/"), Dir ++ "/"
     end,
   FDs =
     lists:foldl(
