@@ -1,10 +1,15 @@
 -module(phoebus_algos_app).
 
-
 -behaviour(application).
--export([start/2,stop/1]).
 
-start(_Type, _StartArgs) ->
+%% Application callbacks
+-export([start/2, stop/1]).
+
+%% ===================================================================
+%% Application callbacks
+%% ===================================================================
+
+start(_StartType, _StartArgs) ->
     phoebus_algos_sup:start_link().
 
 stop(_State) ->
